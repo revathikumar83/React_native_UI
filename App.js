@@ -1,20 +1,100 @@
-import React from 'react';
-import {Text, View} from 'react-native';
-import { StyleSheet, Text, View } from 'react-native';
+import React, {Component} from 'react';
+import { StyleSheet, View, Image, TouchableOpacity,Text,FlatList } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import data from './data.json';
+import VideoItem from './component/VideoItem';
 
-export default function App() {
+export default class App extends React.Component {
+  render(){
+    
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
+      <View style={styles.navBar}> 
+      <Image source={require('./image/logo.png')} style={{width: 168, height: 55 }} />
+      <View style={styles.rightNav}>
+        <TouchableOpacity>
+        <Icon style={styles.navItem} name="search" size={25}/>
+        </TouchableOpacity>
+        <TouchableOpacity>
+        <Icon style={styles.navItem} name="account-circle" size={25}/>
+        </TouchableOpacity>
+       </View>
+       </View>  
+       <View style={styles.body}>
+       
+
+        <FlatList
+           data={data.items}
+           renderItem={(video) => <VideoItem video={video.item}/>}
+           keyExtractor={(item)=>  item.id}
+           ItemSeparatorComponent={()=> <View style={{height:0.5, backgroundColor:'#cccccc'}}/>}
+        />
+
+        
+       </View>
+       <View style={styles.tabBar}>
+         <TouchableOpacity style={styles.tabItem}>
+           <Icon name="home" size={25}/>
+           <Text styel={styles.tabTitle}> Home</Text>
+         </TouchableOpacity>
+         <TouchableOpacity style={styles.tabItem}>
+           <Icon name="whatshot" size={25}/>
+           <Text styel={styles.tabTitle}> Trending</Text>
+         </TouchableOpacity>
+         <TouchableOpacity style={styles.tabItem}>
+           <Icon name="subscriptions" size={25}/>
+           <Text styel={styles.tabTitle}>subscriptions </Text>
+         </TouchableOpacity>
+         <TouchableOpacity style={styles.tabItem}>
+           <Icon name="folder" size={25}/>
+           <Text styel={styles.tabTitle}> Library</Text>
+         </TouchableOpacity>
+       </View>
     </View>
   );
+}
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    
   },
+  navBar:{
+    height:55,
+    backgroundColor:'white',
+    elevation:3,
+    paddingHorizontal: 15,
+    flexDirection: 'row',
+    alignItems:'center',
+    justifyContent:'space-between',
+  },
+  rightNav:{
+    flexDirection: 'row',
+  },
+  navItem:{
+    marginLeft: 25,
+  },
+  body:{
+    flex:1,
+
+  },
+  tabBar:{
+    backgroundColor:'white',
+    height:60,
+    borderTopWidth:0.5,
+    borderColor: '#E5E5E5',
+    flexDirection:'row',
+    justifyContent:'space-around',
+    
+  },
+  tabItem:{
+alignItems:'center',
+justifyContent:'center',
+  },
+  tabTitle:{
+fontSize:11,
+color:'#3c3c3c',
+paddingTop:4,
+  }
 });
